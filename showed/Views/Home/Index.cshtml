@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<!-- Carousel
+================================================== -->
+<div id="myCarousel" class="carousel slide">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <img src="/images/theWalkingDeadBanner.jpg" style="width:100%" class="img-responsive">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Find and follow</h1>
+                    <p>
+                        Search between hundreds of tv-show and add them to your profile in few easy clicks.
+                    </p>
+                    <p>
+                        <a class="btn btn-purple" href="@Url.Action("About", "Home")">Learn More</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="/images/gameOfThrones-banner.jpg" class="img-responsive">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>See Calender</h1>
+                    <p>
+                        All your shows is shown in a simple clean calender,
+                        where you can check or uncheck allready watched episodes for easy tracking.
+                    </p>
+                    <p><a class="btn btn-purple" href="@Url.Action("About", "Home")">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="/images/house-banner.jpg" class="img-responsive">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Manage Shows</h1>
+                    <p>
+                        You can easily manage your shows in the "My shows" area,
+                        where you can remove or see followed tv-shows.
+                    </p>
+                    <p><a class="btn btn-purple" href="@Url.Action("About", "Home")">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
+</div>
+<!-- /.carousel -->
+<div class="container">
+    <h1>Welcome to Showed</h1>
+    @if (Request.IsAuthenticated)
+    {
+        <p class="lead">Hi @User.Identity.GetUserName()!</p>
+    }
+    else
+    {
+        <p class="lead">Please log-in to change and see your calender filled with tv-shows</p>
+    }
+    <div class="col-md-6">
+        <h2>Getting started</h2>
+        <p>
+            Showed is a calender where you can add your favourite tv-shows and get an alert, when the show is aired. After you have logged in you can choose between hundres of tv shows and add them to you calender, have fun ;)
+        </p>
+    </div>
+</div>

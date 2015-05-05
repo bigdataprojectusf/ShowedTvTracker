@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+    <link href="~/Content/Site.css" rel="stylesheet"/>
+    <title>@ViewBag.Title - Showed</title>
+    <meta name="description" content="The description of my page"/>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</head>
+<body>
+<div class="navbar navbar-purple navbar-twitch" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+                <span class="small-nav"> <span class="logo"> <img src="/images/showedIconTtransformium.png" style="width: 100%" /> </span> </span>
+                <span class="full-nav"> <img src="/images/showedfulltext3.png" style="width:100%" /> </span>
+        </div>
+        <div class="">
+            <ul class="nav navbar-nav">
+                @Html.Partial("_SideNavPartial")
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<button type="button" class="btn btn-purple btn-xs navbar-twitch-toggle">
+    <span class="glyphicon glyphicon-chevron-right nav-open"></span>
+    <span class="glyphicon glyphicon-chevron-left nav-close"></span>
+</button>
+
+    @RenderBody()
+
+</body>
+
+
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.navbar-nav [data-toggle="tooltip"]').tooltip();
+        $('.navbar-twitch-toggle').on('click', function (event) {
+            event.preventDefault();
+            $('.navbar-twitch').toggleClass('open');
+        });
+
+        $('.nav-style-toggle').on('click', function (event) {
+            event.preventDefault();
+            var $current = $('.nav-style-toggle.disabled');
+            $(this).addClass('disabled');
+            $current.removeClass('disabled');
+            $('.navbar-twitch').removeClass('navbar-' + $current.data('type'));
+            $('.navbar-twitch').addClass('navbar-' + $(this).data('type'));
+        });
+    });
+</script>

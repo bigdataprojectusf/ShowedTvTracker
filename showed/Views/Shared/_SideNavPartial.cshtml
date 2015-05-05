@@ -1,0 +1,111 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <li>
+        <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Search">
+        <span class="glyphicon glyphicon-search"></span>
+    </span>
+        <div class="full-nav">
+
+            @using (Html.BeginForm("SearchResults", "Show", FormMethod.Post))
+            {
+                <div class="paddindgSearch">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="search" id="search">
+                        <div class="input-group-btn">
+                            <button class="btn btn-purple" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </li>
+}
+
+<li class="active">
+    <a href="@Url.Action("Index", "Home")">
+        <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Home">
+            <span class="glyphicon glyphicon-home"></span>
+        </span>
+        <span class="full-nav"> <span class="glyphicon glyphicon-home"></span> Home </span>
+    </a>
+</li>
+
+@if (Request.IsAuthenticated)
+{
+    <li>
+        <a href="@Url.Action("MyCalender", "Show")">
+            <span class="small-nav" data-toggle="tooltip" data-placement="right" title="My Calender">
+                <span class="fa fa-calendar"></span>
+            </span>
+            <span class="full-nav"> <span class="fa fa-calendar"></span> My Calender </span>
+        </a>
+    </li>
+    <li>
+        <a href="@Url.Action("Index", "Show")">
+            <span class="small-nav" data-toggle="tooltip" data-placement="right" title="My Shows">
+                <span class="fa fa-heart"></span>
+            </span>
+            <span class="full-nav"> <span class="fa fa-heart"></span> My Shows </span>
+        </a>
+    </li>
+}
+
+<li>
+    <a href="@Url.Action("About", "Home")">
+        <span class="small-nav" data-toggle="tooltip" data-placement="right" title="About">
+            <span class="fa fa-question-circle"></span>
+        </span>
+        <span class="full-nav"><span class="fa fa-question-circle"></span> About </span>
+    </a>
+</li>
+
+<li>
+    <a href="@Url.Action("Contact", "Home")">
+        <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Contact">
+            <span class="glyphicon glyphicon-comment"></span>
+        </span>
+        <span class="full-nav"> <span class="glyphicon glyphicon-comment"></span> Contact </span>
+    </a>
+</li>
+
+@if (Request.IsAuthenticated)
+{
+    <li>
+        <a href="@Url.Action("Index", "Manage")">
+            <span class="small-nav" data-toggle="tooltip" data-placement="right" title="My Account">
+                <span class="fa fa-user"></span>
+            </span>
+            <span class="full-nav"> <span class="fa fa-user"></span> @User.Identity.GetUserName() </span>
+        </a>
+    </li>
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+        {
+            <li class="logoutForm">
+                <a href="javascript:document.getElementById('logoutForm').submit()">
+                    <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Log-out">
+                <span class="fa fa-sign-out"></span>
+            </span>
+                    <span class="full-nav"> <span class="fa fa-sign-out"></span> Sign-out </span>
+                </a>
+            </li>
+        }
+    }
+}
+else
+{
+    <li>
+        <a href="@Url.Action("Login", "Account")">
+            <span class="small-nav" data-toggle="tooltip" data-placement="right" title="Log-in">
+                <span class="fa fa-sign-in"></span>
+            </span>
+            <span class="full-nav"> <span class="fa fa-sign-in"></span> Log-in </span>
+        </a>
+    </li>
+}
+
