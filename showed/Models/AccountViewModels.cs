@@ -9,6 +9,16 @@ namespace showed.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        private Member _member;
+        public Member Member
+        {
+            get
+            {
+                return _member ?? new Member();
+            }
+            set { _member = value; }
+        }
     }
 
     public class ExternalLoginListViewModel
@@ -70,10 +80,15 @@ namespace showed.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        
-        public string Surname { get; set; }
-        
-        public string Lastname { get; set; }
+        private Member _member;
+        public Member Member
+        {
+            get
+            {
+                return _member ?? new Member();
+            }
+            set { _member = value; }
+        }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

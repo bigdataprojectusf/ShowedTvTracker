@@ -1,4 +1,5 @@
-﻿
+﻿@model showed.ViewModels.ShowIndexViewModel
+
 @{
     ViewBag.Title = "Index";
 }
@@ -6,5 +7,48 @@
 <div class="container">
     <h2>My Shows</h2>
     <h4> Manage you shows here! </h4>
+
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-center">Network</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Language</th>
+                <th class="text-center">Aired</th>
+                <th class="text-center">Rating</th>
+                <th class="text-center">Follow</th>
+            </tr>
+
+            @foreach (var show in Model.Shows)
+            {
+                <tr>
+                    <td class="text-center">@show.Network</td>
+                    <td class="text-center">@Html.ActionLink(show.Name, "Details")</td>
+                    <td class="text-center">@show.Language</td>
+                    <td class="text-center">@show.FirstAired.GetValueOrDefault().Year </td>
+                    <td class="text-center">
+                        @if (show.Rating != null)
+                        {
+                            @show.Rating
+                            @:/ 10
+                            }
+                        else
+                        {
+                            @:Not rated
+                            }
+                    </td>
+                    <td class="text-center">
+                        @using (Html.BeginForm("UnfollowShow", "Show"))
+                        {
+                            @Html.Hidden("showId", show.Id)
+                            <input type="submit" class="btn btn-purple btn-xs" value="Unfollow" />
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
 </div>
 

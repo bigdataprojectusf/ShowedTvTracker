@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using showed.Models;
+using showed.Repositories;
 
 namespace showed.Controllers
 {
@@ -147,7 +148,7 @@ namespace showed.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, Member member)
         {
             if (ModelState.IsValid)
             {
@@ -158,6 +159,11 @@ namespace showed.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    MembersRepository membersRepository = new MembersRepository();
+                    member.AccountUserId = user.Id;
+                    membersRepository.InsertOrUpdate(member);
+                    membersRepository.Save();
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -355,7 +361,7 @@ namespace showed.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        public async Task<ActionResult> ExternalLoginConfirmation(Member member, ExternalLoginConfirmationViewModel model, string returnUrl)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -377,6 +383,12 @@ namespace showed.Controllers
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+
+                    MembersRepository membersRepository = new MembersRepository();
+                    member.AccountUserId = user.Id;
+                    membersRepository.InsertOrUpdate(member);
+                    membersRepository.Save();
+
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {

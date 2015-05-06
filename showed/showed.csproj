@@ -202,7 +202,10 @@
     <Compile Include="Models\ShowInfo.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\MemberRepository.cs" />
+    <Compile Include="Repositories\ShowInfoRepository.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ShowIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
