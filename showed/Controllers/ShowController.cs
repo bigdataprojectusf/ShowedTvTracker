@@ -28,6 +28,43 @@ namespace showed.Controllers
             showInfoDb = new ShowInfoRepository();
         }
 
+        
+        public ActionResult GetJsonShowsFollows()
+        {
+            var userId = User.Identity.GetUserId();
+            var listOfMembers = membersDb.All.ToList();
+            Member member = listOfMembers.Find(c => c.AccountUserId.Contains(userId));
+            var allshowinfos = showInfoDb.All.ToList();
+            var followedShows = allshowinfos.FindAll(c => c.MemberId.Equals(member.MemberId)).ToList();
+
+            List<CalenderEvent> calEvents = new List<CalenderEvent>();
+
+            foreach (var followed in followedShows)
+            {
+                var result = _tvdb.GetShow(followed.ShowId);
+                var episodeList = result.Episodes;
+                int id = 0;
+                foreach (var episodes in episodeList)
+                {
+                    var dateAired = episodes.FirstAired;
+                    CalenderEvent cEvent = new CalenderEvent()
+                    {
+                        allday = "",
+                        title = result.Name + " : " + episodes.Title,
+                        id = id.ToString(),
+                        start = dateAired.GetValueOrDefault().Year + "-" 
+                                + dateAired.GetValueOrDefault().Month + "-"
+                                + dateAired.GetValueOrDefault().Day
+                    };
+                    System.Console.WriteLine(cEvent.start);
+                    calEvents.Add(cEvent);
+                    id++;
+                }
+            }
+
+            return Json(calEvents, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Show
         //My shows / manage shows page
         public ActionResult Index()

@@ -3,20 +3,24 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
-    <link href="~/Content/Site.css" rel="stylesheet"/>
-    <title>@ViewBag.Title - Showed</title>
-    <meta name="description" content="The description of my page"/>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="~/Content/fullcalendar.css" />
+    <link href="~/Content/Site.css" rel="stylesheet"/>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/fullcalendar.js"></script>
+
+    <title>@ViewBag.Title - Showed</title>
+    <meta name="description" content="The description of my page"/>
 </head>
 <body>
 <div class="navbar navbar-purple navbar-twitch" role="navigation">
     <div class="container">
         <div class="navbar-header">
-                <span class="small-nav"> <span class="logo"> <img src="/images/showedIconTtransformium.png" style="width: 100%" /> </span> </span>
-                <span class="full-nav"> <img src="/images/showedfulltext3.png" style="width:100%" /> </span>
+            <span class="small-nav"> <span class="logo"> <img src="/images/showedIconTtransformium.png" style="width: 100%" /> </span> </span>
+            <span class="full-nav"> <img src="/images/showedfulltext3.png" style="width: 100%" /> </span>
         </div>
         <div class="">
             <ul class="nav navbar-nav">
@@ -31,9 +35,14 @@
 </button>
 
     @RenderBody()
+<footer>
+    <div class="container">
+        <br/>
+        <p>&copy; @DateTime.Now.Year - Showed - Calender for tv-shows </p>
+    </div>
+</footer>
 
 </body>
-
 
 </html>
 

@@ -135,10 +135,21 @@ body {
 	display: inline-block;
 }
 
+.btn {
+    outline: transparent;
+    outline:0px !important;
+    -webkit-appearance:none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline:none !important;
+}
+
 .btn-purple,
 .btn-purple:hover,
 .btn-purple:focus,
 .btn-purple:Active {
+    outline:0 !important;
+    -webkit-appearance:none;
     color: rgb(255, 255, 255);
     background-color: rgb(86, 61, 124);
     border-color: rgb(111, 84, 153);

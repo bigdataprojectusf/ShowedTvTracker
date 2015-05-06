@@ -14,6 +14,6 @@ namespace showed.Models
         public string Surname { get; set; }
         [Required]
         public string Lastname { get; set; }
-        public ICollection<ShowInfo> ShowInfos { get; set; }
+        //public ICollection<ShowInfo> ShowInfos { get; set; }
     }
 }
