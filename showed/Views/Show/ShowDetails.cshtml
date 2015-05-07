@@ -57,6 +57,16 @@
             var listEp = Model.Episodes;
             var seasonLastNr = listEp.Last().SeasonNumber;
             var seasonFirstNr = listEp.First().SeasonNumber;
+            bool hasExtra;
+            if (seasonFirstNr == 0)
+            {
+                hasExtra = true;
+            }
+            else
+            {
+                hasExtra = false;
+                seasonFirstNr = 0;
+            }
         }
 
         @for (int i = seasonLastNr; i > seasonFirstNr; i--)
@@ -65,7 +75,7 @@
                 <a href="#@i" data-toggle="tab">@i</a>
             </li>
         }
-        @if (seasonFirstNr == 0)
+        @if (hasExtra == true)
         {
             <li>
                 <a href="#0" data-toggle="tab">Extras</a>
@@ -107,7 +117,7 @@
             </table>
         </div>
         }
-        @if (seasonFirstNr == 0)
+        @if (hasExtra == true)
         {
             <div class="tab-pane" id="0">
                 <table class="table table-condensed" style="border-collapse: collapse;">
