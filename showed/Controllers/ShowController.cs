@@ -140,6 +140,12 @@ namespace showed.Controllers
             return View("Error");
         }
 
+        public ActionResult ShowDetails(int showId)
+        {
+            var showResult = _tvdb.GetShow(showId);
+            return View(showResult);
+        }
+
         //Calender view page
         public ActionResult MyCalender()
         {

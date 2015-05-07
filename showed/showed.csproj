@@ -319,6 +319,7 @@
     <Content Include="Views\Show\MyCalender.cshtml" />
     <Content Include="Views\Show\SearchResults.cshtml" />
     <Content Include="Views\Show\Follow.cshtml" />
+    <Content Include="Views\Show\ShowDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

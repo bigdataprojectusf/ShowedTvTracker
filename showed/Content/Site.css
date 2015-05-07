@@ -234,4 +234,49 @@ body {
     line-height: 1.4;
   }
 
+  .paddingListGroup {
+    padding: 0 5% 5% 5%;
+}
+
+}
+
+@media (max-width: 768px) {
+
+    .paddingListGroup {
+        padding: 15px 10px 10px 10px;
+    }
+}
+
+.hiddenRow {
+    padding: 0 !important;
+}
+
+.list-group-item-purpleLight {
+    color: rgb(255, 255, 255);
+    background-color: rgb(86, 61, 124);
+}
+
+.list-group-item-purpleDark {
+    color: rgb(255, 255, 255);
+    background-color: rgb(111, 84, 153);
+}
+
+.list-group-item {
+  /*
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+      */
+  border: none;
+}
+
+.jumbotron {
+    /*
+  padding: 30px 15px;
+  margin-bottom: 30px;
+  color: inherit;
+        background-color: rgb(86, 61, 124);
+        */
 }
