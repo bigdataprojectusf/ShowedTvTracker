@@ -50,7 +50,7 @@ namespace showed.Controllers
                     CalenderEvent cEvent = new CalenderEvent()
                     {
                         allday = "",
-                        title = result.Name + " : " + episodes.Title,
+                        title = result.Name + "\n" + "(" + episodes.SeasonNumber + "x" + episodes.EpisodeNumber + ")" + episodes.Title,
                         id = id.ToString(),
                         start = dateAired.GetValueOrDefault().Year + "-" 
                                 + dateAired.GetValueOrDefault().Month + "-"

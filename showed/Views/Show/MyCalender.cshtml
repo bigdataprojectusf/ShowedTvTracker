@@ -18,11 +18,12 @@
         $('#calendar').fullCalendar({
             aspectRatio: 2.5,
             header: {
-                left: 'prev,next today',
+                left: '',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'today prev,next'
             },
-            events: '@Url.Action("GetJSonShowsFollows", "Show")'
+            events: '@Url.Action("GetJSonShowsFollows", "Show")',
+            timeFormat: ' '
         });
     });
 </script>

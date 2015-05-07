@@ -13,9 +13,9 @@
             <tr>
                 <th class="text-center">Network</th>
                 <th class="text-center">Name</th>
-                <th class="text-center">Language</th>
                 <th class="text-center">Aired</th>
                 <th class="text-center">Rating</th>
+                <th class="text-center">Imdb</th>
                 <th class="text-center">Follow</th>
             </tr>
             @if (Model != null)
@@ -25,7 +25,6 @@
                     <tr>
                         <td class="text-center">@show.Network</td>
                         <td class="text-center">@Html.ActionLink(show.Name, "Details")</td>
-                        <td class="text-center">@show.Language</td>
                         <td class="text-center">@show.FirstAired.GetValueOrDefault().Year </td>
                         <td class="text-center">
                             @if (show.Rating != null)
@@ -38,6 +37,7 @@
                                 @:Not rated
                             }
                         </td>
+                        <td class="text-center"><a href="http://www.imdb.com/title/@show.ImdbId" target="_blank">Imdb</a></td>
                         <td class="text-center">
                             @using (Html.BeginForm("FollowShow", "Show"))
                             {
