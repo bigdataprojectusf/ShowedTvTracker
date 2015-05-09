@@ -24,7 +24,7 @@
                 {
                     <tr>
                         <td class="text-center">@show.Network</td>
-                        <td class="text-center">@Html.ActionLink(show.Name, "Details")</td>
+                        <td class="text-center">@Html.ActionLink(show.Name, "ShowDetails", new { showId = show.Id })</td>
                         <td class="text-center">@show.FirstAired.GetValueOrDefault().Year </td>
                         <td class="text-center">
                             @if (show.Rating != null)

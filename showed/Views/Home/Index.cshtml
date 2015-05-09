@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@model List<TVDBSharp.Models.Show>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -73,10 +74,19 @@
     {
         <p class="lead">Please log-in to change and see your calender filled with tv-shows</p>
     }
-    <div class="col-md-6">
-        <h2>Getting started</h2>
-        <p>
-            Showed is a calender where you can add your favourite tv-shows and get an alert, when the show is aired. After you have logged in you can choose between hundres of tv shows and add them to you calender, have fun ;)
-        </p>
+    <div class="col-md-12">
+        <h2>Most Popular tv-shows</h2>
+    </div>
+    <div class="container col-md-12">
+        <div class="row">
+            @foreach (var shows in Model)
+            {
+                <div class="col-xs-5 col-sm-3 col-md-2">
+                    <a href="@Url.Action("ShowDetails","Show", new {showId = shows.Id})" class="thumbnail">
+                        <img src="@shows.Poster" alt="...">
+                    </a>
+                </div>
+            }
+        </div>
     </div>
 </div>
