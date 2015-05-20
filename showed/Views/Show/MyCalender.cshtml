@@ -16,14 +16,62 @@
     $(function () {
 
         $('#calendar').fullCalendar({
-            aspectRatio: 2.5,
+            aspectRatio: 1.5,
             header: {
                 left: '',
                 center: 'title',
                 right: 'today prev,next'
             },
             events: '@Url.Action("GetJSonShowsFollows", "Show")',
-            timeFormat: ' '
+            
+            timeFormat: ' ',
+            eventClick: function (calEvent, jsEvent, view) {
+
+                //alert('Event: ' + calEvent.completed);
+                //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+                //alert('View: ' + view.name);
+                // change the border color just for fun
+                if (calEvent.completed == 'false') {
+                    var thisEl = $(this);
+                    $.ajax({
+                        type: 'POST',
+                        url: "@Url.Action("WatchEpisodeJson", "Show")",
+                        data: JSON.stringify({ theTvDbEpisodeId: calEvent.thetvdbepisodeid, showInfoId: calEvent.showinfoid }),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        alert('Episode: ' + calEvent.title + "\n" + 'Is watched');
+                        thisEl.css('background', 'rgb(205, 191, 227)');
+                        thisEl.css('border-color', 'rgb(205, 191, 227)');
+                        calEvent.completed = 'true';
+                        calEvent.episodeinfoid = result;
+                        thisEl.css('text-decoration', 'line-through');
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                    });
+                } else if (calEvent.completed == 'true') {
+                    var thisEl = $(this);
+                    $.ajax({
+                        type: 'POST',
+                        url: "@Url.Action("UnwatchEpisodeJson", "Show")",
+                        data: JSON.stringify({ episodeInfoId: calEvent.episodeinfoid }),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        alert('Episode: ' + calEvent.title + "\n" + 'Is not watched');
+                        thisEl.css('background', 'rgb(86, 61, 124)');
+                        thisEl.css('border-color', 'rgb(86, 61, 124)');
+                        thisEl.css('text-decoration', 'none');
+                        calEvent.completed = 'false';
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                    });
+                }
+            }
         });
     });
 </script>

@@ -296,3 +296,16 @@ body {
         background-color: rgb(86, 61, 124);
         */
 }
+
+.eventWatched {
+    background: rgb(205, 191, 227);
+    border-color: rgb(205, 191, 227);
+    text-decoration: line-through;
+}
+
+.eventNotWatched {
+    background: rgb(86, 61, 124);
+    border-color: rgb(86, 61, 124);
+    text-decoration: none;
+}
+

@@ -12,6 +12,10 @@ namespace showed.Models
         public string id { get; set; }
         public string end { get; set; }
         public string start { get; set; }
-        
+        public string className { get; set; }
+        public string completed { get; set; }
+        public string thetvdbepisodeid { get; set; }
+        public string showinfoid { get; set; }
+        public string episodeinfoid { get; set; }
     }
 }

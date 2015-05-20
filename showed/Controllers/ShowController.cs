@@ -48,7 +48,22 @@ namespace showed.Controllers
                 int id = 0;
                 foreach (var episodes in episodeList)
                 {
+                    var allEpisodes = episodeInfoDb.All.ToList();
+                    var watchedEpisodes = allEpisodes.FindAll(c => c.ShowInfoId.Equals(followed.ShowInfoId)).ToList();
                     var dateAired = episodes.FirstAired;
+                    string watchedEpisodeInfoId = "";
+                    string isWatched = "false";
+                    string classNameEvent = "eventNotWatched";
+
+                    if (watchedEpisodes.FirstOrDefault(c=> c.ThetvdbEpisodeId.Equals(episodes.Id)) != null)
+                    {
+                        watchedEpisodeInfoId = watchedEpisodes.First(c => c.ThetvdbEpisodeId.Equals(episodes.Id)).EpisodeInfoId.ToString();
+                        isWatched = "true";
+                        classNameEvent = "eventWatched";
+                    }
+
+
+
                     CalenderEvent cEvent = new CalenderEvent()
                     {
                         allday = "",
@@ -56,9 +71,14 @@ namespace showed.Controllers
                         id = id.ToString(),
                         start = dateAired.GetValueOrDefault().Year + "-" 
                                 + dateAired.GetValueOrDefault().Month + "-"
-                                + dateAired.GetValueOrDefault().Day
+                                + dateAired.GetValueOrDefault().Day,
+                        className = classNameEvent,
+                        completed = isWatched,
+                        thetvdbepisodeid = episodes.Id.ToString(),
+                        showinfoid = followed.ShowInfoId.ToString(),
+                        episodeinfoid = watchedEpisodeInfoId
                     };
-                    System.Console.WriteLine(cEvent.start);
+                    //System.Console.WriteLine(cEvent.start);
                     calEvents.Add(cEvent);
                     id++;
                 }
