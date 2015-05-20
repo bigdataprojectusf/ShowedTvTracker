@@ -161,6 +161,22 @@ body {
     border-color: rgb(86, 61, 124);   
 }
 
+.btn-watchedCheck,
+.btn-watchedCheck:hover,
+.btn-watchedCheck:focus,
+.btn-watchedCheck:Active {
+    outline:0 !important;
+    -webkit-appearance:none;
+    background-color: rgb(255, 255, 255) !important;
+    border-color: rgb(255, 255, 255);  
+}
+.btn-watchedCheck:hover,
+.btn-watchedCheck:focus,
+.btn-watchedCheck:Active {   
+    background-color: rgb(255, 255, 255) !important;
+    border-color: rgb(255, 255, 255);  
+}
+
 .paddindgSearch {
     padding: 15px 10px 10px 10px;
 }

@@ -20,12 +20,14 @@ namespace showed.Controllers
         private TVDB _tvdb;
         private IMembersRepository membersDb;
         private IShowInfoRepository showInfoDb;
+        private IEpisodeInfoRepository episodeInfoDb;
 
         public ShowController()
         {
             _tvdb = new TVDB("86F59A0BFBA75DB4");
             membersDb = new MembersRepository();
             showInfoDb = new ShowInfoRepository();
+            episodeInfoDb = new EpisodeInfoRepository();
         }
 
         
@@ -143,7 +145,95 @@ namespace showed.Controllers
         public ActionResult ShowDetails(int showId)
         {
             var showResult = _tvdb.GetShow(showId);
-            return View(showResult);
+            var viewModel = new ShowDetailsViewModel();
+            viewModel.Show = showResult;
+            viewModel.EpisodeInfos = null;
+            
+            return View(viewModel);
+        }
+
+        public ActionResult LoggedInShowDetails(int showId, int showInfoId)
+        {
+            var showResult = _tvdb.GetShow(showId);
+            var viewModel = new ShowDetailsViewModel();
+            viewModel.Show = showResult;
+            var allEpisodes = episodeInfoDb.All.ToList();
+            viewModel.EpisodeInfos = allEpisodes.FindAll(c => c.ShowInfoId.Equals(showInfoId)).ToList();
+            var showInfo = showInfoDb.Find(showInfoId);
+            viewModel.ShowInfo = showInfo;
+            return View("ShowDetails",viewModel);
+        }
+
+        public ActionResult WatchEpisode(int theTvDbEpisodeId, int showInfoId)
+        {
+            if (ModelState.IsValid)
+            {
+                var listOfShows = showInfoDb.All.ToList();
+                var showInfo = listOfShows.First(c=> c.ShowInfoId.Equals(showInfoId));    
+
+                EpisodeInfo episodeInfo = new EpisodeInfo
+                {
+                   ShowInfoId = showInfo.ShowInfoId,
+                   IsWatched = true,
+                   ThetvdbEpisodeId = theTvDbEpisodeId
+                };
+
+                episodeInfoDb.InsertOrUpdate(episodeInfo);
+                episodeInfoDb.Save();
+
+                return RedirectToAction("Index");
+            }
+            return View("Error");
+        }
+
+        public ActionResult UnWatchEpisode(int episodeInfoId)
+        {
+            if (ModelState.IsValid)
+            {
+                var episodeToDelete = episodeInfoDb.Find(episodeInfoId);
+                episodeInfoDb.Delete(episodeToDelete);
+                episodeInfoDb.Save();
+
+                return RedirectToAction("Index");
+            }
+            return View("Error");
+        }
+
+        public JsonResult WatchEpisodeJson(int theTvDbEpisodeId, int showInfoId)
+        {
+            if (ModelState.IsValid)
+            {
+                var listOfShows = showInfoDb.All.ToList();
+                var showInfo = listOfShows.First(c => c.ShowInfoId.Equals(showInfoId));
+
+                EpisodeInfo episodeInfo = new EpisodeInfo
+                {
+                    ShowInfoId = showInfo.ShowInfoId,
+                    IsWatched = true,
+                    ThetvdbEpisodeId = theTvDbEpisodeId
+                };
+
+                episodeInfoDb.InsertOrUpdate(episodeInfo);
+                episodeInfoDb.Save();
+
+                var stringEpisodeInfo = episodeInfo.EpisodeInfoId.ToString();
+
+                return Json(stringEpisodeInfo);
+            }
+            return Json(false);
+        }
+
+        public JsonResult UnWatchEpisodeJson(int episodeInfoId)
+        {
+            if (ModelState.IsValid)
+            {
+                var episodeToDelete = episodeInfoDb.Find(episodeInfoId);
+                episodeInfoDb.Delete(episodeToDelete);
+                episodeInfoDb.Save();
+
+                return Json(true);
+            }
+            return Json(false);
         }
 
         //Calender view page

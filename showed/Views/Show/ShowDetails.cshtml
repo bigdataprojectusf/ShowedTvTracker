@@ -1,27 +1,27 @@
-﻿@model TVDBSharp.Models.Show
+﻿@model showed.ViewModels.ShowDetailsViewModel
 
 @{
-    ViewBag.Title = @Model.Name + " Details";
+    ViewBag.Title = @Model.Show.Name + " Details";
 }
 <div class="jumbotron">
-    <center><img src="@Model.Banner" align="middle" /></center>
+    <center><img src="@Model.Show.Banner" align="middle" /></center>
 </div>
 <div class="container">
 
     <div>
         <div class="col-md-2 col-sm-2 col-xs-3 text-center">
-            <img src="@Model.Poster" style="width: 100%" />
+            <img src="@Model.Show.Poster" style="width: 100%" />
         </div>
         <div class="col-md-5 col-sm-6 col-xs-9">
-            @Model.Description
+            @Model.Show.Description
         </div>
         <br />
         <div class="col-md-4 col-sm-4 col-xs-12">
             <ul class="paddingListGroup list-group">
                 <li class="list-group-item list-group-item-purpleLight text-center">
-                    Rating: @if (Model.Rating != null)
+                    Rating: @if (Model.Show.Rating != null)
                     {
-                        @Model.Rating
+                        @Model.Show.Rating
                         @:/ 10
                             }
                     else
@@ -29,14 +29,14 @@
                         @:Not rated
                             }
                 </li>
-                <li class="list-group-item list-group-item-purpleDark text-center">Premiered: @Model.FirstAired.GetValueOrDefault().ToShortDateString()</li>
-                <li class="list-group-item list-group-item-purpleLight text-center">Episodes: @Model.Episodes.Count</li>
+                <li class="list-group-item list-group-item-purpleDark text-center">Premiered: @Model.Show.FirstAired.GetValueOrDefault().ToShortDateString()</li>
+                <li class="list-group-item list-group-item-purpleLight text-center">Episodes: @Model.Show.Episodes.Count</li>
                 <li class="list-group-item list-group-item-purpleDark text-center">
-                    @if (@Model.Status.Equals(TVDBSharp.Models.Enums.Status.Continuing))
+                    @if (@Model.Show.Status.Equals(TVDBSharp.Models.Enums.Status.Continuing))
                     {
                         <div style="color:greenyellow">Running</div>
                     }
-                    else if (@Model.Status.Equals(TVDBSharp.Models.Enums.Status.Ended))
+                    else if (@Model.Show.Status.Equals(TVDBSharp.Models.Enums.Status.Ended))
                     {
                         <div style="color:red">Ended</div>
                     }
@@ -50,108 +50,173 @@
     </div>
     <div class="panel-body col-md-12 col-sm-12 col-xs-12">
         <div class="alert alert-danger" role="alert">Click on an episode to show description!</div>
-@{
-    <ul class="nav nav-tabs" id="episode-table">
-
         @{
-            var listEp = Model.Episodes;
-            var seasonLastNr = listEp.Last().SeasonNumber;
-            var seasonFirstNr = listEp.First().SeasonNumber;
-            bool hasExtra;
-            if (seasonFirstNr == 0)
-            {
-                hasExtra = true;
-            }
-            else
-            {
-                hasExtra = false;
-                seasonFirstNr = 0;
-            }
-        }
+            <ul class="nav nav-tabs" id="episode-table">
 
-        @for (int i = seasonLastNr; i > seasonFirstNr; i--)
-        {
-            <li>
-                <a href="#@i" data-toggle="tab">@i</a>
-            </li>
-        }
-        @if (hasExtra == true)
-        {
-            <li>
-                <a href="#0" data-toggle="tab">Extras</a>
-            </li>
-        }
-
-    </ul>
-    <div class="tab-content">
-        @for(int j = seasonLastNr; j > seasonFirstNr; j--)
-        {
-        <div class="tab-pane" id="@j">
-            <table class="table table-condensed" style="border-collapse: collapse;">
-                <tr>
-                    <th class="text-center">Season</th>
-                    <th class="text-center">Episode</th>
-                    <th class="text-center">Title</th>
-                    <th class="text-center">Aired</th>
-                </tr>
-                @if (Model != null)
-                {
-
-                    foreach (var show in Model.Episodes.FindAll(c => c.SeasonNumber.Equals(@j)))
+                @{
+                    var listEp = Model.Show.Episodes;
+                    var seasonLastNr = listEp.Last().SeasonNumber;
+                    var seasonFirstNr = listEp.First().SeasonNumber;
+                    bool hasExtra;
+                    if (seasonFirstNr == 0)
                     {
-                        <tr data-toggle="collapse" data-target="#@show.Id" class="accordion-toggle">
-                            <td class="text-center">@show.SeasonNumber</td>
-                            <td class="text-center">@show.EpisodeNumber</td>
-                            <td class="text-center">@show.Title</td>
-                            <td class="text-center">
-                                @show.FirstAired.GetValueOrDefault().ToLongDateString()
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" class="hiddenRow">
-                                <div class="accordian-body collapse" id="@show.Id"> @show.Description </div>
-                            </td>
-                        </tr>
+                        hasExtra = true;
+                    }
+                    else
+                    {
+                        hasExtra = false;
+                        seasonFirstNr = 0;
                     }
                 }
-            </table>
-        </div>
-        }
-        @if (hasExtra == true)
-        {
-            <div class="tab-pane" id="0">
-                <table class="table table-condensed" style="border-collapse: collapse;">
-                    <tr>
-                        <th class="text-center">Season</th>
-                        <th class="text-center">Episode</th>
-                        <th class="text-center">Title</th>
-                        <th class="text-center">Aired</th>
-                    </tr>
-                    @if (Model != null)
-                    {
 
-                        foreach (var show in Model.Episodes.FindAll(c => c.SeasonNumber.Equals(0)))
-                        {
-                            <tr data-toggle="collapse" data-target="#@show.Id" class="accordion-toggle">
-                                <td class="text-center">@show.SeasonNumber</td>
-                                <td class="text-center">@show.EpisodeNumber</td>
-                                <td class="text-center">@show.Title</td>
-                                <td class="text-center">
-                                    @show.FirstAired.GetValueOrDefault().ToLongDateString()
-                                </td>
-                            </tr>
+                @for (int i = seasonLastNr; i > seasonFirstNr; i--)
+                {
+                    <li>
+                        <a href="#@i" data-toggle="tab">@i</a>
+                    </li>
+                }
+                @if (hasExtra == true)
+                {
+                    <li>
+                        <a href="#0" data-toggle="tab">Extras</a>
+                    </li>
+                }
+
+            </ul>
+            <div class="tab-content">
+                @for (int j = seasonLastNr; j > seasonFirstNr; j--)
+                {
+                    <div class="tab-pane" id="@j">
+                        <table class="table table-condensed" style="border-collapse: collapse" id="mainEpisodeTable">
                             <tr>
-                                <td colspan="6" class="hiddenRow">
-                                    <div class="accordian-body collapse" id="@show.Id"> @show.Description </div>
-                                </td>
+                                <th class="text-center">Season</th>
+                                <th class="text-center">Episode</th>
+                                <th class="text-center">Title</th>
+                                <th class="text-center">Aired</th>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <th class="text-center">Watched</th>
+                                }
                             </tr>
-                        }
-                    }
-                </table>
+                            @if (Model != null)
+                            {
+
+                                foreach (var show in Model.Show.Episodes.FindAll(c => c.SeasonNumber.Equals(@j)))
+                                {
+                                    <tr>
+                                        <td class="text-center accordion-toggle" data-toggle="collapse" data-target="#@show.Id">@show.SeasonNumber</td>
+                                        <td class="text-center accordion-toggle" data-toggle="collapse" data-target="#@show.Id">@show.EpisodeNumber</td>
+                                        <td class="text-center accordion-toggle" data-toggle="collapse" data-target="#@show.Id">@show.Title</td>
+                                        <td class="text-center accordion-toggle" data-toggle="collapse" data-target="#@show.Id">
+                                            @show.FirstAired.GetValueOrDefault().ToLongDateString()
+                                        </td>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            if (@Model.EpisodeInfos.FirstOrDefault(c => c.ThetvdbEpisodeId.Equals(show.Id)) != null)
+                                            {
+                                                <td class="text-center">
+                                                    @*
+                                                        @Html.ActionLink(" ", "UnWatchEpisode", new { episodeInfoId = @Model.EpisodeInfos.First(c => c.ThetvdbEpisodeId.Equals(show.Id)).EpisodeInfoId }, new { @class = "fa fa-check-square-o" })
+                                                    *@
+                                                    <button type="submit" class="btn btn-watchedCheck" id="btnEpisodeWatched"
+                                                            goal-episodeinfoid="@Model.EpisodeInfos.First(c => c.ThetvdbEpisodeId.Equals(show.Id)).EpisodeInfoId"
+                                                            goal-thetvdbepisodeid="@show.Id"
+                                                            goal-showinfoid="@Model.ShowInfo.ShowInfoId">
+                                                        <i class="fa fa-check-square-o"></i>
+                                                    </button>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center">
+                                                    @*
+                                                        @Html.ActionLink(" ", "WatchEpisode", new { theTvDbEpisodeId = show.Id, showInfoId = @Model.ShowInfo.ShowInfoId }, new { @class = "fa fa-square-o" })
+                                                    *@
+                                                    <button type="submit" class="btn btn-watchedCheck" id="btnEpisodeNotWatched"
+                                                            goal-thetvdbepisodeid="@show.Id"
+                                                            goal-showinfoid="@Model.ShowInfo.ShowInfoId">
+                                                        <i class="fa fa-square-o"></i>
+                                                    </button>
+                                                </td>
+                                            }
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" class="hiddenRow">
+                                            <div class="accordian-body collapse" id="@show.Id"> @show.Description </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                }
+                @if (hasExtra == true)
+                {
+                    <div class="tab-pane" id="0">
+                        <table class="table table-condensed" style="border-collapse: collapse;">
+                            <tr>
+                                <th class="text-center">Season</th>
+                                <th class="text-center">Episode</th>
+                                <th class="text-center">Title</th>
+                                <th class="text-center">Aired</th>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <th class="text-center">Watched</th>
+                                }
+                            </tr>
+                            @if (Model != null)
+                            {
+
+                                foreach (var show in Model.Show.Episodes.FindAll(c => c.SeasonNumber.Equals(0)))
+                                {
+                                    <tr data-toggle="collapse" data-target="#@show.Id" class="accordion-toggle">
+                                        <td class="text-center">@show.SeasonNumber</td>
+                                        <td class="text-center">@show.EpisodeNumber</td>
+                                        <td class="text-center">@show.Title</td>
+                                        <td class="text-center">
+                                            @show.FirstAired.GetValueOrDefault().ToLongDateString()
+                                        </td>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            if (@Model.EpisodeInfos.FirstOrDefault(c => c.ThetvdbEpisodeId.Equals(show.Id)) != null)
+                                            {
+                                                <td class="text-center">
+                                                    @*
+                                                    @Html.ActionLink(" ", "UnWatchEpisode", new { episodeInfoId = @Model.EpisodeInfos.First(c => c.ThetvdbEpisodeId.Equals(show.Id)).EpisodeInfoId }, new { @class = "fa fa-check-square-o" })
+                                                    *@
+                                                    <button type="submit" class="btn btn-watchedCheck" id="btnEpisodeWatched"
+                                                            goal-episodeinfoid="@Model.EpisodeInfos.First(c => c.ThetvdbEpisodeId.Equals(show.Id)).EpisodeInfoId"
+                                                            goal-thetvdbepisodeid="@show.Id"
+                                                            goal-showinfoid="@Model.ShowInfo.ShowInfoId">
+                                                        <i class="fa fa-check-square-o"></i>
+                                                    </button>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center">
+                                                    <button type="submit" class="btn btn-watchedCheck" id="btnEpisodeNotWatched"
+                                                            goal-thetvdbepisodeid="@show.Id"
+                                                            goal-showinfoid="@Model.ShowInfo.ShowInfoId">
+                                                        <i class="fa fa-square-o"></i>
+                                                    </button>
+                                                </td>
+                                            }
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="hiddenRow">
+                                            <div class="accordian-body collapse" id="@show.Id"> @show.Description </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                }
             </div>
         }
-    </div>
-}
     </div>
 
 </div>
@@ -160,5 +225,64 @@
 
 <script type="text/javascript">
     $('#episode-table a:first').tab('show');
-</script>
 
+    $('#mainEpisodeTable').on('click', '#btnEpisodeWatched', function () {
+        var row = $(this).closest('tr'),
+            cells = row.find('td'),
+            btnCell = $(this).parent();
+        var episodeInfoId = $(this).attr('goal-episodeInfoId');
+        var theTvDbEpisodeId = $(this).attr('goal-thetvdbepisodeid');
+        var showInfoId = $(this).attr('goal-showinfoid');
+        //btnCell.html(episodeInfoId+'hej');
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("UnwatchEpisodeJson", "Show")",
+            data: JSON.stringify({episodeInfoId: episodeInfoId}),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function () {
+                btnCell.html(
+                    '<button type="submit" class="btn btn-watchedCheck" id="btnEpisodeNotWatched"' +
+                        'goal-thetvdbepisodeid="' + theTvDbEpisodeId + '"' +
+                        'goal-showinfoid="' + showInfoId + '">' +
+                            '<i class="fa fa-square-o"></i>' +
+                    '</button>'
+                );
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    });
+
+    $('#mainEpisodeTable').on('click', '#btnEpisodeNotWatched', function () {
+        var row = $(this).closest('tr'),
+            cells = row.find('td'),
+            btnCell = $(this).parent();
+
+        var theTvDbEpisodeId = $(this).attr('goal-thetvdbepisodeid');
+        var showInfoId = $(this).attr('goal-showinfoid');
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("WatchEpisodeJson", "Show")",
+            data: JSON.stringify({ theTvDbEpisodeId: theTvDbEpisodeId, showInfoId: showInfoId }),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                btnCell.html(
+                    '<button type="submit" class="btn btn-watchedCheck" id="btnEpisodeWatched"' +
+                        'goal-episodeinfoid="' + result + '"' +
+                        'goal-thetvdbepisodeid="' + theTvDbEpisodeId + '"' +
+                        'goal-showinfoid="' + showInfoId + '">' +
+                            '<i class="fa fa-check-square-o"></i>' +
+                    '</button>'
+                );
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    });
+</script>

@@ -23,7 +23,7 @@
             {
                 <tr>
                     <td class="text-center">@show.Network</td>
-                    <td class="text-center">@Html.ActionLink(show.Name, "ShowDetails", new {showId = show.Id})</td>
+                    <td class="text-center">@Html.ActionLink(show.Name, "LoggedInShowDetails", new {showId = show.Id, showInfoId = @Model.ShowInfos.First(c=> c.ShowId.Equals(show.Id)).ShowInfoId})</td>
                     <td class="text-center">@show.FirstAired.GetValueOrDefault().Year </td>
                     <td class="text-center">
                         @if (show.Rating != null)

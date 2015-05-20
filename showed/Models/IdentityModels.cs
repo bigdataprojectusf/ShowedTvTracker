@@ -23,6 +23,7 @@ namespace showed.Models
     {
         public DbSet<Member> Members { get; set; }
         public DbSet<ShowInfo> ShowInfos { get; set; }
+        public DbSet<EpisodeInfo> EpisodeInfos { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
