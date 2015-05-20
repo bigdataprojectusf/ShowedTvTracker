@@ -95,7 +95,10 @@
                                 <th class="text-center">Aired</th>
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <th class="text-center">Watched</th>
+                                    if (@Model.EpisodeInfos != null)
+                                    {
+                                        <th class="text-center">Watched</th>
+                                    }
                                 }
                             </tr>
                             @if (Model != null)
@@ -165,7 +168,10 @@
                                 <th class="text-center">Aired</th>
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <th class="text-center">Watched</th>
+                                    if (@Model.EpisodeInfos != null)
+                                    {
+                                        <th class="text-center">Watched</th>
+                                    }
                                 }
                             </tr>
                             @if (Model != null)
@@ -182,29 +188,32 @@
                                         </td>
                                         @if (User.Identity.IsAuthenticated)
                                         {
-                                            if (@Model.EpisodeInfos.FirstOrDefault(c => c.ThetvdbEpisodeId.Equals(show.Id)) != null)
+                                            if (@Model.EpisodeInfos != null)
                                             {
-                                                <td class="text-center">
-                                                    @*
+                                                if (@Model.EpisodeInfos.FirstOrDefault(c => c.ThetvdbEpisodeId.Equals(show.Id)) != null)
+                                                {
+                                                    <td class="text-center">
+                                                        @*
                                                     @Html.ActionLink(" ", "UnWatchEpisode", new { episodeInfoId = @Model.EpisodeInfos.First(c => c.ThetvdbEpisodeId.Equals(show.Id)).EpisodeInfoId }, new { @class = "fa fa-check-square-o" })
                                                     *@
-                                                    <button type="submit" class="btn btn-watchedCheck" id="btnEpisodeWatched"
-                                                            goal-episodeinfoid="@Model.EpisodeInfos.First(c => c.ThetvdbEpisodeId.Equals(show.Id)).EpisodeInfoId"
-                                                            goal-thetvdbepisodeid="@show.Id"
-                                                            goal-showinfoid="@Model.ShowInfo.ShowInfoId">
-                                                        <i class="fa fa-check-square-o"></i>
-                                                    </button>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td class="text-center">
-                                                    <button type="submit" class="btn btn-watchedCheck" id="btnEpisodeNotWatched"
-                                                            goal-thetvdbepisodeid="@show.Id"
-                                                            goal-showinfoid="@Model.ShowInfo.ShowInfoId">
-                                                        <i class="fa fa-square-o"></i>
-                                                    </button>
-                                                </td>
+                                                        <button type="submit" class="btn btn-watchedCheck" id="btnEpisodeWatched"
+                                                                goal-episodeinfoid="@Model.EpisodeInfos.First(c => c.ThetvdbEpisodeId.Equals(show.Id)).EpisodeInfoId"
+                                                                goal-thetvdbepisodeid="@show.Id"
+                                                                goal-showinfoid="@Model.ShowInfo.ShowInfoId">
+                                                            <i class="fa fa-check-square-o"></i>
+                                                        </button>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center">
+                                                        <button type="submit" class="btn btn-watchedCheck" id="btnEpisodeNotWatched"
+                                                                goal-thetvdbepisodeid="@show.Id"
+                                                                goal-showinfoid="@Model.ShowInfo.ShowInfoId">
+                                                            <i class="fa fa-square-o"></i>
+                                                        </button>
+                                                    </td>
+                                                }
                                             }
                                         }
                                     </tr>
