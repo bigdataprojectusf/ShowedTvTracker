@@ -66,9 +66,10 @@ namespace showed.Controllers
                         allday = "",
                         title = result.Name + "\n" + "(" + episodes.SeasonNumber + "x" + episodes.EpisodeNumber + ")" + episodes.Title,
                         id = id.ToString(),
-                        start = dateAired.GetValueOrDefault().Year + "-" 
-                                + dateAired.GetValueOrDefault().Month + "-"
-                                + dateAired.GetValueOrDefault().Day,
+                        //start = dateAired.GetValueOrDefault().Year + "-" 
+                          //      + dateAired.GetValueOrDefault().Month + "-"
+                            //    + dateAired.GetValueOrDefault().Day,
+                        start = dateAired.GetValueOrDefault().ToString("yyyy-MM-dd"),
                         className = classNameEvent,
                         completed = isWatched,
                         thetvdbepisodeid = episodes.Id.ToString(),
