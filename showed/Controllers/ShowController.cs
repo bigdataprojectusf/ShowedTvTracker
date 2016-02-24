@@ -31,10 +31,10 @@ namespace showed.Controllers
             var userId = User.Identity.GetUserId();
             //var listOfMembers = membersDb.All.ToList();
             //Member member = listOfMembers.Find(c => c.AccountUserId.Contains(userId));
-            Member member = membersDb.All.First(c => c.AccountUserId.Contains(userId));
+            Member member = membersDb.All.First(c => c.AccountUserId == userId);
             //var allshowinfos = showInfoDb.All.ToList();
             //var followedShows = allshowinfos.FindAll(c => c.MemberId.Equals(member.MemberId)).ToList();
-            var followedShows = showInfoDb.All.Where(c => c.MemberId.Equals(member.MemberId)).ToList();
+            var followedShows = showInfoDb.All.Where(c => c.MemberId == member.MemberId).ToList();
 
             List<CalenderEvent> calEvents = new List<CalenderEvent>();
 
@@ -48,15 +48,15 @@ namespace showed.Controllers
                     //var allEpisodes = episodeInfoDb.All.ToList();
                     //var watchedEpisodes = allEpisodes.FindAll(c => c.ShowInfoId.Equals(followed.ShowInfoId)).ToList();
                     var watchedEpisodes =
-                        episodeInfoDb.All.Where(c => c.ShowInfoId.Equals(followed.ShowInfoId)).ToList();
+                        episodeInfoDb.All.Where(c => c.ShowInfoId == followed.ShowInfoId).ToList();
                     var dateAired = episodes.FirstAired;
                     string watchedEpisodeInfoId = "";
                     string isWatched = "false";
                     string classNameEvent = "eventNotWatched";
 
-                    if (watchedEpisodes.FirstOrDefault(c=> c.ThetvdbEpisodeId.Equals(episodes.Id)) != null)
+                    if (watchedEpisodes.FirstOrDefault(c=> c.ThetvdbEpisodeId == episodes.Id) != null)
                     {
-                        watchedEpisodeInfoId = watchedEpisodes.First(c => c.ThetvdbEpisodeId.Equals(episodes.Id)).EpisodeInfoId.ToString();
+                        watchedEpisodeInfoId = watchedEpisodes.First(c => c.ThetvdbEpisodeId == episodes.Id).EpisodeInfoId.ToString();
                         isWatched = "true";
                         classNameEvent = "eventWatched";
                     }
@@ -93,10 +93,10 @@ namespace showed.Controllers
 
             //var listOfMembers = membersDb.All.ToList();
             //Member member = listOfMembers.Find(c => c.AccountUserId.Contains(userId));
-            Member member = membersDb.All.First(c => c.AccountUserId.Contains(userId));
+            Member member = membersDb.All.First(c => c.AccountUserId == userId);
             //var allshowinfos = showInfoDb.All.ToList();
             //var followedShows = allshowinfos.FindAll(c => c.MemberId.Equals(member.MemberId)).ToList();
-            var followedShows = showInfoDb.All.Where(c => c.MemberId.Equals(member.MemberId)).ToList();
+            var followedShows = showInfoDb.All.Where(c => c.MemberId == member.MemberId).ToList();
             var foundShows = followedShows.Select(showsfollowd => _tvdb.GetShow(showsfollowd.ShowId)).ToList();
 
             ShowIndexViewModel viewModel = new ShowIndexViewModel
@@ -117,14 +117,14 @@ namespace showed.Controllers
 
                 //var listOfMembers = membersDb.All.ToList();
                 //var member = listOfMembers.First(c => c.AccountUserId.Contains(userId));
-                Member member = membersDb.All.First(c => c.AccountUserId.Contains(userId));
+                Member member = membersDb.All.First(c => c.AccountUserId == userId);
 
                 //var allShowInfos = showInfoDb.All.ToList();
                 //var followedShows = allShowInfos.FindAll(c => c.MemberId.Equals(member.MemberId)).ToList();
                 //var showsToRemove = followedShows.FindAll(c => c.ShowId.Equals(showId)).ToList();
                 var showToRemove =
-                    showInfoDb.All.Where(c => c.MemberId.Equals(member.MemberId))
-                        .First(c => c.ShowId.Equals(showId));
+                    showInfoDb.All.Where(c => c.MemberId == member.MemberId)
+                        .First(c => c.ShowId == showId);
             
                 showInfoDb.Delete(showToRemove);
                 showInfoDb.Save();
@@ -143,9 +143,9 @@ namespace showed.Controllers
 
                 //var listOfMembers = membersDb.All.ToList();
                 //var member = listOfMembers.First(c => c.AccountUserId.Contains(userId));
-                Member member = membersDb.All.First(c => c.AccountUserId.Contains(userId));
+                Member member = membersDb.All.First(c => c.AccountUserId == userId);
                 var allreadyFollowsShow =
-                    showInfoDb.All.FirstOrDefault(c => c.MemberId.Equals(member.MemberId) && c.ShowId.Equals(showId));
+                    showInfoDb.All.FirstOrDefault(c => c.MemberId == member.MemberId && c.ShowId == showId);
                 if (allreadyFollowsShow == null)
                 {
                     ShowInfo showInfo = new ShowInfo
@@ -184,7 +184,7 @@ namespace showed.Controllers
             };
             //var allEpisodes = episodeInfoDb.All.ToList();
             //viewModel.EpisodeInfos = allEpisodes.FindAll(c => c.ShowInfoId.Equals(showInfoId)).ToList();
-            viewModel.EpisodeInfos = episodeInfoDb.All.Where(c => c.ShowInfoId.Equals(showInfoId)).ToList();
+            viewModel.EpisodeInfos = episodeInfoDb.All.Where(c => c.ShowInfoId == showInfoId).ToList();
             var showInfo = showInfoDb.Find(showInfoId);
             viewModel.ShowInfo = showInfo;
             return View("ShowDetails",viewModel);
@@ -196,7 +196,7 @@ namespace showed.Controllers
             {
                 //var listOfShows = showInfoDb.All.ToList();
                 //var showInfo = listOfShows.First(c=> c.ShowInfoId.Equals(showInfoId)); 
-                var showInfo = showInfoDb.All.First(c => c.ShowInfoId.Equals(showInfoId));
+                var showInfo = showInfoDb.All.First(c => c.ShowInfoId == showInfoId);
 
                 EpisodeInfo episodeInfo = new EpisodeInfo
                 {
@@ -232,7 +232,7 @@ namespace showed.Controllers
             {
                 //var listOfShows = showInfoDb.All.ToList();
                 //var showInfo = listOfShows.First(c => c.ShowInfoId.Equals(showInfoId));
-                var showInfo = showInfoDb.All.First(c => c.ShowInfoId.Equals(showInfoId));
+                var showInfo = showInfoDb.All.First(c => c.ShowInfoId == showInfoId);
 
                 EpisodeInfo episodeInfo = new EpisodeInfo
                 {
